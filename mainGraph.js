@@ -36,13 +36,30 @@ function generateGraph() {
 	}, {
 		date: "9/08/2015",
 		weight: 285
+	}, {
+		date: "9/09/2015",
+		weight: 330
+	}, {
+		date: "9/10/2015",
+		weight: 320
+	}, {
+		date: "9/11/2015",
+		weight: 322
+	}, {
+		date: "9/12/2015",
+		weight: 280
+	}, {
+		date: "9/13/2015",
+		weight: 333
+	}, {
+		date: "9/14/2015",
+		weight: 290
+	}, {
+		date: "9/15/2015",
+		weight: 285
 	}];
 
 	var canvas = d3.select("#mainGraph");
-
-	console.log(canvas);
-
-	console.log($(window).width());
 
 	var xScale = d3.time.scale().range([50, $(window).width() - 60]).domain([getDate(data[0]), getDate(data[data.length - 1])]);
 
@@ -84,11 +101,18 @@ function generateGraph() {
 		.style("fill", "green")
 		.style("stroke", function(d) { return "green"; })
 		.on('click', function(){
-			console.log(this);
+			var circle = $("#" + this.id);
+			console.log(circle);
+			$("#infoPanel").dialog({
+				position: {my: "left bottom", at: "center", of: circle},
+				title: circle[0].__data__.date
+			});
 		})
 		.on('mouseover', function(){
-			console.log(this.getAttribute("r"));
-			d3.select("#" + this.id).attr("r", parseInt(this.getAttribute("r")) + 1);
+			d3.select("#" + this.id).attr("r", parseInt(this.getAttribute("r")) + 3);
+		})
+		.on('mouseout', function() {
+			d3.select("#" + this.id).attr("r", parseInt(this.getAttribute("r")) - 3)
 		});
 }
 
@@ -105,8 +129,6 @@ function getMinWeight(d) {
 		}
 	});
 
-	console.log(min);
-
 	return min;
 }
 
@@ -119,15 +141,11 @@ function getMaxWeight(d) {
 		}
 	});
 
-	console.log(max);
-
 	return max;
 }
 
 function resizeScreen() {
-	
 
 	$("#mainGraph")[0].setAttribute('height', ($(window).height() * 10/12));
 
-	console.log($("#mainGraph"));
 }
